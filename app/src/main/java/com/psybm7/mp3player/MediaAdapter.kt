@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 
 class MediaAdapter (private val cursor: Cursor, private val onClickAction: (media: MP3) -> Unit): RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
@@ -16,7 +15,7 @@ class MediaAdapter (private val cursor: Cursor, private val onClickAction: (medi
      * (custom ViewHolder).
      */
     class ViewHolder(view: View, private val onClickAction: (media: MP3) -> Unit) : RecyclerView.ViewHolder(view) {
-        var state: MediaState = MediaState.DEFAULT
+        var state: MainViewModel.State = MainViewModel.State.DEFAULT
         private val tvName: TextView = view.findViewById(R.id.tvMediaName)
         private val btPlay: Button = view.findViewById(R.id.btMediaPlay)
         private lateinit var media: MP3

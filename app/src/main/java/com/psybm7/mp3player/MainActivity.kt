@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.psybm7.mp3player.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityMainBinding;
+    private lateinit var binding: ActivityMainBinding
 
     private val viewModel: MainViewModel by viewModels<MainViewModel>()
 
@@ -25,21 +25,17 @@ class MainActivity : AppCompatActivity() {
             MediaStore.Audio.Media.IS_MUSIC + "!= 0",
             null, null)
 
-        Log.d("comp3018", cursor.toString())
-
         if (cursor != null) {
             val adapter = MediaAdapter(cursor) { media -> this.onMediaItemClick(media) }
             binding.rvMediaList.adapter = adapter
         }
 
         binding.rvMediaList.layoutManager = LinearLayoutManager(this)
-
-//        viewModel.mediaList.observe(this, Observer<List<MP3>> { mediaList ->
-//        })
     }
 
     private fun onMediaItemClick(media: MP3) {
         Log.d("comp3018", media.uri)
+        this.viewModel.stop()
         this.viewModel.play(media)
     }
 
