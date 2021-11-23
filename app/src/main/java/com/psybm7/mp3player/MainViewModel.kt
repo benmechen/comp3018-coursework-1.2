@@ -3,7 +3,6 @@ package com.psybm7.mp3player
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import java.math.BigDecimal
 
 class MainViewModel: ViewModel() {
     enum class State {
@@ -22,7 +21,11 @@ class MainViewModel: ViewModel() {
 
     private val player: MP3Player = MP3Player()
 
-    private fun getSelectedMedia(): MP3? {
+    fun getState(): State? {
+        return this.state.value
+    }
+
+    fun getSelectedMedia(): MP3? {
         return this.selectedMedia.value
     }
 

@@ -3,14 +3,13 @@ package com.psybm7.mp3player.fragments
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import com.psybm7.mp3player.MP3
 import com.psybm7.mp3player.MainViewModel
 import com.psybm7.mp3player.databinding.FragmentPlayerBinding
 
@@ -21,7 +20,7 @@ const val PROGRESS_INTERVAL: Long = 500
  * Use the [PlayerFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class PlayerFragment : Fragment() {
+class PlayerFragment : Fragment(), View.OnClickListener {
     private lateinit var binding: FragmentPlayerBinding
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -46,7 +45,6 @@ class PlayerFragment : Fragment() {
          *
          * @return A new instance of fragment PlayerFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() =
             PlayerFragment().apply {
@@ -63,8 +61,22 @@ class PlayerFragment : Fragment() {
                 binding.name = media.name
             }
         })
+
+        binding.btPlayerAction.setOnClickListener(this)
+//        binding.btPlayerAction.callOnClick()
     }
 
+//    SECTION: UI Handlers
+    override fun onClick(view: View?) {
+        Log.d("PlayerFragment", "Clicked")
+        val selectedMedia = this.viewModel.getSelectedMedia()
+        if (this.viewModel.getState() == MainViewModel.State.PLAYING && selectedMedia != null)
+            this.viewModel.play(selectedMedia)
+        else this.viewModel.pause()
+    }
+
+//    SECTION: Progress updates
+//    https://stackoverflow.com/questions/55570990/kotlin-call-a-function-every-second/55571277
     private val setProgressTask = object : Runnable {
         override fun run() {
             setProgress()
@@ -76,6 +88,7 @@ class PlayerFragment : Fragment() {
         this.binding.progress = this.viewModel.getProgress()
     }
 
+//    SECTION: State updates
     private fun setState(state: MainViewModel.State) {
         when (state) {
             MainViewModel.State.DEFAULT -> this.onMediaStop()

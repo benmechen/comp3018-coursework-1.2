@@ -3,7 +3,6 @@ package com.psybm7.mp3player
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,7 +11,7 @@ import com.psybm7.mp3player.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val viewModel: MainViewModel by viewModels<MainViewModel>()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,10 +32,14 @@ class MainActivity : AppCompatActivity() {
         binding.rvMediaList.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun onMediaItemClick(media: MP3) {
-        Log.d("comp3018", media.uri)
-        this.viewModel.stop()
+    private fun onMediaItemClick(media: MP3): MainViewModel.State {
+        if (this.viewModel.getSelectedMedia() == media) {
+            this.viewModel.stop()
+            return MainViewModel.State.DEFAULT
+        }
+
         this.viewModel.play(media)
+        return MainViewModel.State.PLAYING
     }
 
 }

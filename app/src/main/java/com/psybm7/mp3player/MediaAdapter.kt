@@ -9,13 +9,13 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class MediaAdapter (private val cursor: Cursor, private val onClickAction: (media: MP3) -> Unit): RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+class MediaAdapter (private val cursor: Cursor, private val onClickAction: (media: MP3) -> MainViewModel.State): RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
     /**
      * Provide a reference to the type of views that you are using
      * (custom ViewHolder).
      */
-    class ViewHolder(view: View, private val onClickAction: (media: MP3) -> Unit) : RecyclerView.ViewHolder(view) {
-        var state: MainViewModel.State = MainViewModel.State.DEFAULT
+    class ViewHolder(view: View, private val onClickAction: (media: MP3) -> MainViewModel.State) : RecyclerView.ViewHolder(view) {
+        private var state: MainViewModel.State = MainViewModel.State.DEFAULT
         private val tvName: TextView = view.findViewById(R.id.tvMediaName)
         private val btPlay: Button = view.findViewById(R.id.btMediaPlay)
         private lateinit var media: MP3
@@ -24,8 +24,16 @@ class MediaAdapter (private val cursor: Cursor, private val onClickAction: (medi
             this.media = media
             this.tvName.text = this.media.name
             this.btPlay.setOnClickListener {
-//                holder.state = MediaState.PLAYING
-                onClickAction(this.media)
+                this.setState(onClickAction(this.media))
+            }
+        }
+
+        private fun setState(state: MainViewModel.State) {
+            this.state = state
+            when (state) {
+                MainViewModel.State.DEFAULT -> this.btPlay.text = "Play"
+                MainViewModel.State.PAUSED -> this.btPlay.text = "Play"
+                MainViewModel.State.PLAYING -> this.btPlay.text ="Stop"
             }
         }
     }
@@ -48,9 +56,5 @@ class MediaAdapter (private val cursor: Cursor, private val onClickAction: (medi
 
     override fun getItemCount(): Int {
         return cursor.count
-    }
-
-    fun onClickListener() {
-
     }
 }
