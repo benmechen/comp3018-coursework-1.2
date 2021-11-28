@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="name"
             type="String" />
@@ -19,46 +18,49 @@
         android:layout_height="wrap_content"
         android:background="#66000000"
         android:clickable="true"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="15dp"
         tools:context=".fragments.PlayerFragment">
 
-        <TextView
-            android:id="@+id/tvPlayerName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@{name}"
-            android:textColor="#FFFFFF" />
+        <Button
+            android:id="@+id/btPlayerAction"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@android:color/transparent"
+            android:clickable="true"
+            android:padding="10dp"
+            app:cornerRadius="50dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:clickable="true"
+            android:clickable="false"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvPlayerName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@{name}"
+                android:textColor="#FFFFFF" />
 
             <ProgressBar
                 android:id="@+id/pbPlayerProgress"
                 style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:max="100"
+                android:max="10000"
                 android:min="0"
                 android:progress="@{progress}" />
 
-            <Button
-                android:id="@+id/btPlayerAction"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:clickable="true"
-                android:foreground="@android:drawable/ic_media_play"
-                android:padding="10dp"
-                app:cornerRadius="50dp"
-                tools:ignore="SpeakableTextPresentCheck" />
         </LinearLayout>
     </LinearLayout>
 </layout>
